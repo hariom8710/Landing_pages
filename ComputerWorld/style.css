@@ -1,0 +1,492 @@
+﻿:root {
+  --background: #eef5fb;
+  --surface: #ffffff;
+  --text: #102a43;
+  --muted: #475569;
+  --primary: #1c70ff;
+  --primary-soft: rgba(28, 112, 255, 0.1);
+  --accent: #16b6b2;
+  --border: #d9e2ec;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at top, rgba(28, 112, 255, 0.12), transparent 38%),
+    linear-gradient(180deg, #f8fbff 0%, #eef5fb 60%, #ffffff 100%);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+body {
+  background-color: var(--background);
+}
+
+.container {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.88);
+  border-bottom: 1px solid rgba(16, 42, 67, 0.08);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.brand {
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+  font-size: 1.15rem;
+}
+
+.main-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.main-nav a,
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.main-nav a:hover,
+.footer-links a:hover {
+  color: var(--primary);
+}
+
+.hero {
+  padding: 4rem 0 2rem;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.hero-copy h1,
+.section-header h2,
+.about-text h2,
+.contact-section h2 {
+  margin: 1rem 0 1rem;
+  font-size: clamp(2rem, 3vw, 3.1rem);
+  line-height: 1.05;
+}
+
+.hero-copy p,
+.about-text p,
+.faq-item p,
+.contact-item p,
+.pricing-card p {
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.95rem 1.75rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button-primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 20px 40px rgba(28, 112, 255, 0.18);
+}
+
+.button-secondary {
+  background: rgba(28, 112, 255, 0.08);
+  color: var(--primary);
+}
+
+.hero-media {
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(248,250,255,0.9));
+  border-radius: 32px;
+  box-shadow: 0 24px 80px rgba(16, 42, 67, 0.08);
+}
+
+.hero-media img {
+  width: 100%;
+  border-radius: 24px;
+}
+
+.section {
+  padding: 4rem 0;
+}
+
+.section-header {
+  display: grid;
+  gap: 1rem;
+  max-width: 720px;
+  margin-bottom: 2.5rem;
+}
+
+.feature-grid,
+.service-list,
+.about-cards,
+.contact-grid,
+.pricing-grid,
+.testimonial-grid,
+.faq-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.feature-grid,
+.service-list,
+.pricing-grid,
+.testimonial-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.card,
+.service-card,
+.mini-card,
+.contact-card,
+.pricing-card,
+.testimonial-card,
+.faq-item,
+.newsletter-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 1.8rem;
+  box-shadow: 0 18px 45px rgba(16, 42, 67, 0.06);
+}
+
+.card i,
+.service-card i,
+.faq-item i,
+.contact-item i {
+  font-size: 1.8rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+..card h3,
+.service-card h3,
+.mini-card h3,
+.pricing-card h3,
+.testimonial-card strong,
+.faq-item h3 {
+  margin: 0 0 0.75rem;
+}
+
+.card p,
+.service-card p,
+.mini-card p,
+.testimonial-card p,
+.faq-item p {
+  margin: 0;
+}
+
+.about-section {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 32px;
+  box-shadow: 0 25px 60px rgba(16, 42, 67, 0.08);
+}
+
+.about-grid {
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.about-cards {
+  display: grid;
+  gap: 1rem;
+}
+
+.mini-card {
+  background: linear-gradient(180deg, rgba(28, 112, 255, 0.08), #ffffff);
+  border: 1px solid rgba(28, 112, 255, 0.14);
+}
+
+.service-card {
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.service-card:hover,
+.pricing-card:hover,
+.faq-item:hover,
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(28, 112, 255, 0.32);
+}
+
+.pricing-card {
+  text-align: center;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.pricing-card-highlight {
+  background: linear-gradient(180deg, rgba(28, 112, 255, 0.12), #ffffff);
+  border-color: rgba(28, 112, 255, 0.24);
+}
+
+.plan-label {
+  display: inline-flex;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: rgba(28, 112, 255, 0.1);
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.price {
+  font-size: 2.75rem;
+  margin: 0;
+  color: var(--text);
+}
+
+.pricing-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: var(--muted);
+}
+
+.pricing-card li {
+  margin: 0.75rem 0;
+}
+
+.testimonial-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.testimonial-card {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.testimonial-card p {
+  margin: 0;
+  font-style: italic;
+}
+
+.testimonial-card strong {
+  color: var(--text);
+  display: block;
+}
+
+.faq-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.faq-item h3 {
+  font-size: 1.1rem;
+}
+
+.newsletter-section {
+  padding: 3rem 0;
+}
+
+.newsletter-card {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  padding: 2rem;
+}
+
+.newsletter-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+}
+
+.newsletter-form input,
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 1rem 1.1rem;
+  font-size: 1rem;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: #f8fbff;
+}
+
+.newsletter-form button,
+.contact-form button {
+  border-radius: 18px;
+}
+
+.contact-section {
+  padding-bottom: 5rem;
+}
+
+.contact-grid {
+  grid-template-columns: 1fr 1fr;
+  align-items: flex-start;
+}
+
+.contact-card {
+  display: grid;
+  gap: 1.25rem;
+  padding: 2rem;
+}
+
+.contact-details {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.contact-item {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.contact-item i {
+  font-size: 1.35rem;
+  color: var(--primary);
+  min-width: 2rem;
+}
+
+.contact-item p {
+  margin: 0.15rem 0 0;
+}
+
+.contact-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.input-group {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.input-group label {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.input-group input,
+.input-group textarea {
+  border: 1px solid var(--border);
+  background: #f8fbff;
+}
+
+.site-footer {
+  padding: 1.5rem 0 2rem;
+  border-top: 1px solid rgba(16, 42, 67, 0.08);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 960px) {
+  .hero-grid,
+  .about-grid,
+  .contact-grid,
+  .feature-grid,
+  .service-list,
+  .pricing-grid,
+  .testimonial-grid,
+  .faq-grid,
+  .newsletter-card {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-top: 3rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .main-nav {
+    justify-content: center;
+  }
+
+  .hero-copy h1,
+  .section-header h2,
+  .about-text h2,
+  .contact-section h2 {
+    font-size: 2rem;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
