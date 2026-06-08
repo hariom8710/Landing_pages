@@ -1,0 +1,152 @@
+.outer{
+    width: 1500px;
+    height: auto;
+    border: 2px solid black;
+    margin: 0 auto;
+}
+
+.header{
+    width: 1500px;
+    height: 250px;
+    /* background-color: yellow; */
+    border: 1px solid  red; 
+    display: flex;
+    /* display: inline-flex;
+    flex-wrap: wrap; */
+
+}
+.hleft,.hright{
+    width: 250px;
+    height: 250px;
+    border: 1px solid black;
+    background-color: aliceblue;
+
+   
+}
+.hleft img, .hright img{
+     width: 250px;
+    height: 250px;
+    
+    
+}
+.hb{
+    width: 1000px;
+    height: 100%;
+    padding: 20px;
+    margin: 0 auto;
+    text-justify: newspaper;
+    text-align: center;
+    
+ }
+.hb h1{
+    font-size: 100px;
+   font-weight: 700;
+   margin-top: 20px;
+}
+.heading{
+    width: 100%;
+    height: 102px;
+    /* background-color: aqua; */
+    border: 1px solid brown;
+    display: flex;
+    color: white;
+
+
+}
+.headingL{
+    width: 50%;
+    height: 100%;
+    background-color: blue;
+    border: 1px transparent;
+    text-align: center;
+    
+    
+}
+.headingL h2{
+    font-size: 30px;
+    font-weight: 500;
+}
+.headingR{
+   
+    width: 50%;
+    height: 100%;
+    background-color: rgb(172, 19, 196);
+    border: 1px solid black;
+    /* text-align: center; */
+   
+}
+.headingR h2{
+    font-size: 30px;
+    font-weight: 500;
+    margin-left: 20px;
+}
+
+.content{
+    width: 100%;
+    height: 700px;
+    /* background-color:orange; */
+    display: flex;
+}
+.left{
+    width: 20%;
+    height: 100%;
+    background-color: aliceblue;
+    border: 1px solid green;
+
+}
+.left h3, .right h3{
+    width: 100%;
+    height: 50px;
+    background-color: black;
+    margin :0 auto;
+    color: white;
+    padding-top:20px ;
+    text-align: center;
+    font-weight: 800;
+  
+}
+.left img{
+    width: 80%;
+    margin: 10px 28px;
+    border: 2px solid black;
+}
+.left p ,.between p, .right p{
+    padding: 5px;
+    margin: 5px;
+    text-align: justify;
+}
+.between{
+    width: 50%;
+    height: 100%;
+    /* color: black; */
+    /* background-color: black; */
+    border: 1px solid yellow;
+}
+.right{
+     width: 30%;
+    height: 100%;
+    /* background-color: yellow; */
+    border: 1px solid black;
+}
+.between h3{
+    width: 100%;
+    height: 50px;
+    font-size: 30px;
+    /* background-color: black; */
+    margin :0 auto;
+    color: black;
+    padding-top:20px ;
+    text-align: center;
+}
+.between img{
+    width: 310px;
+    height: 200px;
+    margin: 20px 25px;
+    border: 2px solid black;
+}
+.right img{
+    width: 70%;
+    height: 30%;
+    margin: 10px 60px;
+    border: 2px solid blue;
+}
