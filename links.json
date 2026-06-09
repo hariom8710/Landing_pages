@@ -1,0 +1,21 @@
+{
+  "hub_clones": [
+    {
+      "name": "Food Card",
+      "url": "Food_card/index.html"
+    },
+    {
+      "name": "Computer World",
+      "url": "ComputerWorld/index.html"
+    },
+    {
+      "name": "News Frontpage",
+      "url": "News_frontpage/index.html"
+    },
+    {
+      "name": "Sarkari Result",
+      "url": "Sarkari_Result/index.html"
+    }
+  ],
+  "hub_external": []
+}

@@ -130,12 +130,85 @@
     document.addEventListener('DOMContentLoaded', function () {
       var clonesKey = 'hub_clones';
       var externalKey = 'hub_external';
-      function load(key) { try { return JSON.parse(localStorage.getItem(key)) || []; } catch (e) { return []; } }
-      function save(key, arr) { localStorage.setItem(key, JSON.stringify(arr)); }
+      var endpoint = '/links';
+      var clones = [];
+      var externals = [];
+      var defaultClones = [
+        { name: 'Food Card', url: 'Food_card/index.html' },
+        { name: 'Computer World', url: 'ComputerWorld/index.html' },
+        { name: 'News Frontpage', url: 'News_frontpage/index.html' },
+        { name: 'Sarkari Result', url: 'Sarkari_Result/index.html' }
+      ];
+
       function escapeHtml(s) { return String(s).replace(/[&<>\"]/g, function (c) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]); }); }
+
+      function saveLocal() {
+        localStorage.setItem(clonesKey, JSON.stringify(clones));
+        localStorage.setItem(externalKey, JSON.stringify(externals));
+      }
+
+      function loadLocal() {
+        try {
+          return {
+            hub_clones: JSON.parse(localStorage.getItem(clonesKey) || 'null') || [],
+            hub_external: JSON.parse(localStorage.getItem(externalKey) || 'null') || []
+          };
+        } catch (e) {
+          return { hub_clones: [], hub_external: [] };
+        }
+      }
+
+      function saveServer() {
+        return fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ hub_clones: clones, hub_external: externals })
+        }).then(function (res) {
+          if (!res.ok) throw new Error('Server save failed');
+          return res.json();
+        }).catch(function () {
+          saveLocal();
+        });
+      }
+
+      function loadServer() {
+        return fetch(endpoint).then(function (res) {
+          if (!res.ok) throw new Error('Failed to load server links');
+          return res.json();
+        }).then(function (data) {
+          clones = Array.isArray(data.hub_clones) ? data.hub_clones : [];
+          externals = Array.isArray(data.hub_external) ? data.hub_external : [];
+          if (!clones.length) clones = defaultClones.slice();
+          saveLocal();
+          renderList(clonesKey, 'clones-list');
+          renderList(externalKey, 'external-list');
+        });
+      }
+
+      function setData(data) {
+        clones = Array.isArray(data.hub_clones) ? data.hub_clones : [];
+        externals = Array.isArray(data.hub_external) ? data.hub_external : [];
+        if (!clones.length) clones = defaultClones.slice();
+        saveLocal();
+        renderList(clonesKey, 'clones-list');
+        renderList(externalKey, 'external-list');
+      }
+
+      function getList(key) {
+        return key === clonesKey ? clones : externals;
+      }
+
+      function setList(key, arr) {
+        if (key === clonesKey) clones = arr;
+        else externals = arr;
+        saveServer();
+        saveLocal();
+      }
+
       function renderList(key, containerId) {
-        var list = load(key);
+        var list = getList(key);
         var container = document.getElementById(containerId);
+        if (!container) return;
         container.innerHTML = '';
         list.forEach(function (item, idx) {
           var card = document.createElement('article');
@@ -149,64 +222,67 @@
           container.appendChild(card);
         });
       }
+
+      function addItem(key, name, url) {
+        var list = getList(key);
+        list.push({ name: name, url: url });
+        setList(key, list);
+        renderList(key, key === clonesKey ? 'clones-list' : 'external-list');
+      }
+
       document.getElementById('add-clone').addEventListener('click', function () {
         var name = document.getElementById('clone-name').value.trim();
         var url = document.getElementById('clone-url').value.trim();
         if (!url) { alert('Please enter a URL'); return; }
-        var arr = load(clonesKey);
-        arr.push({ name: name, url: url });
-        save(clonesKey, arr);
-        renderList(clonesKey, 'clones-list');
+        addItem(clonesKey, name, url);
         document.getElementById('clone-name').value = '';
         document.getElementById('clone-url').value = '';
       });
+
       document.getElementById('add-external').addEventListener('click', function () {
         var name = document.getElementById('ext-name').value.trim();
         var url = document.getElementById('ext-url').value.trim();
         if (!url) { alert('Please enter a URL'); return; }
-        var arr = load(externalKey);
-        arr.push({ name: name, url: url });
-        save(externalKey, arr);
-        renderList(externalKey, 'external-list');
+        addItem(externalKey, name, url);
         document.getElementById('ext-name').value = '';
         document.getElementById('ext-url').value = '';
       });
+
       document.addEventListener('click', function (e) {
         if (e.target && e.target.classList.contains('remove-btn')) {
           var idx = Number(e.target.getAttribute('data-idx'));
           var sectionKey = e.target.getAttribute('data-section');
-          var arr = load(sectionKey);
-          arr.splice(idx, 1);
-          save(sectionKey, arr);
+          var list = getList(sectionKey);
+          list.splice(idx, 1);
+          setList(sectionKey, list);
           renderList(sectionKey, sectionKey === clonesKey ? 'clones-list' : 'external-list');
+          return;
         }
         if (e.target && e.target.classList.contains('edit-btn')) {
           var idx = Number(e.target.getAttribute('data-idx'));
           var sectionKey = e.target.getAttribute('data-section');
-          var arr = load(sectionKey);
-          var item = arr[idx];
+          var list = getList(sectionKey);
+          var item = list[idx];
           var newName = prompt('Edit name', item.name || '');
-          if (newName === null) return; // cancelled
+          if (newName === null) return;
           var newUrl = prompt('Edit URL', item.url || '');
           if (newUrl === null) return;
           item.name = newName.trim();
           item.url = newUrl.trim();
-          save(sectionKey, arr);
+          setList(sectionKey, list);
           renderList(sectionKey, sectionKey === clonesKey ? 'clones-list' : 'external-list');
         }
       });
-      // initialize defaults if empty
-      if (!load(clonesKey).length) {
-        save(clonesKey, [
-          { name: 'Food Card', url: 'Food_card/index.html' },
-          { name: 'Computer World', url: 'ComputerWorld/index.html' },
-          { name: 'News Frontpage', url: 'News_frontpage/index.html' },
-          { name: 'Sarkari Result', url: 'Sarkari_Result/index.html' }
-        ]);
+
+      var localData = loadLocal();
+      if (localData.hub_clones.length || localData.hub_external.length) {
+        setData(localData);
       }
-      if (!load(externalKey).length) { save(externalKey, []); }
-      renderList(clonesKey, 'clones-list');
-      renderList(externalKey, 'external-list');
+      loadServer().catch(function () {
+        if (!localData.hub_clones.length && !localData.hub_external.length) {
+          setData({ hub_clones: defaultClones, hub_external: [] });
+        }
+      });
     });
   </script>
   <script src="hub.js"></script>
