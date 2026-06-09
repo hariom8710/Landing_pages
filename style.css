@@ -56,9 +56,24 @@ a {
   gap: 16px;
 }
 
-.topbar__nav a {
+.topbar__nav a,
+.topbar__nav #edit-mode-btn {
   font-weight: 500;
   color: rgba(233, 237, 248, 0.86);
+  background: none;
+  border: none;
+  padding: 0;
+  min-height: auto;
+  cursor: pointer;
+  font: inherit;
+  transition: all 200ms ease;
+}
+
+.topbar__nav a:hover,
+.topbar__nav #edit-mode-btn:hover {
+  color: #ffffff;
+  text-shadow: 0 4px 12px rgba(110, 92, 255, 0.4);
+  transform: translateY(-2px);
 }
 
 .hero {
@@ -133,6 +148,22 @@ a {
   color: #e9edf8;
 }
 
+.button--minimal {
+  background: transparent;
+  border: none;
+  color: rgba(233, 237, 248, 0.86);
+  padding: 0;
+  min-height: auto;
+  font: inherit;
+  letter-spacing: 0.02em;
+}
+
+.button--minimal:hover {
+  color: #ffffff;
+  text-shadow: 0 4px 12px rgba(110, 92, 255, 0.4);
+  transform: translateY(-1px);
+}
+
 .button--link {
   border: 1px solid rgba(127, 199, 255, 0.35);
   background: rgba(13, 24, 44, 0.8);
@@ -172,7 +203,7 @@ a {
 .hero__scene {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 415px;
   display: grid;
   place-items: center;
   padding: 16px;
@@ -185,8 +216,7 @@ a {
   height: 100%;
   object-fit: cover;
   border-radius: 32px;
-  filter: brightness(0.78) saturate(1.05);
-  transform: scale(1.02);
+  filter: brightness(0.6) saturate(1.1);
 }
 
 .hero__scene::before {
@@ -203,25 +233,14 @@ a {
   width: min(100%, 420px);
   padding: 32px;
   border-radius: 28px;
-  background: rgba(8, 14, 30, 0.88);
+  background: rgba(53, 87, 173, 0.359);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 32px 80px rgba(1, 12, 32, 0.32);
-  backdrop-filter: blur(20px);
+  box-shadow: 0 32px 80px rgba(1, 12, 32, 0.186);
+  backdrop-filter: blur(2px);
   z-index: 2;
 }
 
-.hero__card span {
-  display: inline-flex;
-  margin-bottom: 16px;
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: rgba(99, 165, 255, 0.14);
-  color: #9ab2ff;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 0.82rem;
-}
+
 
 .hero__card h2 {
   margin: 0 0 18px;
@@ -230,7 +249,7 @@ a {
 
 .hero__card p {
   margin: 0;
-  color: #c7d1e2;
+  color: #fbfcfc;
 }
 
 .hero__badge {
@@ -411,3 +430,37 @@ a {
     font-size: 2.6rem;
   }
 }
+
+/* Hub admin and link card styles */
+.admin-form {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.admin-form input {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  color: inherit;
+  min-width: 200px;
+}
+.link-card { }
+.remove-btn {
+  margin-left: 12px;
+  background: rgba(255, 85, 85, 0.06);
+  color: #ffb4b4;
+  border: 1px solid rgba(255,85,85,0.12);
+}
+
+@media (max-width: 912px) {
+  .admin-form input { flex: 1 1 100%; }
+}
+
+/* admin controls hidden unless editing mode enabled */
+.admin-control { display: none !important; }
+body.editing .admin-control { display: inline-flex !important; }
+/* highlight editable regions */
+[data-editable] { outline: none; }
+[data-editable].editable-active { box-shadow: 0 0 0 2px rgba(110,92,255,0.14) inset; border-radius: 6px; }

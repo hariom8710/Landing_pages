@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Land Pages Hub</title>
+  <title>Frontend Pages Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -12,19 +12,22 @@
 <body>
   <div class="page-shell">
     <header class="topbar">
-      <div class="topbar__brand">Landing Pages Hub</div>
+      <div class="topbar__brand">Frontend Demos Hub</div>
       <nav class="topbar__nav">
         <a href="#pages">Pages</a>
+        <a href="#clones">Clones</a>
+        <a href="#external">Other Links</a>
         <a href="#about">About</a>
+        <button id="edit-mode-btn">Edit</button>
       </nav>
     </header>
 
     <main>
       <section class="hero">
         <div class="hero__content">
-          <span class="eyebrow">One place for all Landing Pages</span>
-          <h1>Modern gateway to every landing page in this collection.</h1>
-          <p>Choose a page below to open a polished demo instantly. This hub makes it easy to preview and navigate between all 4 projects from a single entry point.</p>
+          <span class="eyebrow">One place for all frontend demos</span>
+          <h1>Modern gateway to every frontend demo in this collection.</h1>
+          <p>Choose a page below to open a polished demo instantly. This hub makes it easy to preview and navigate between all projects from a single entry point.</p>
           <div class="hero__actions">
             <a href="#pages" class="button button--primary">View Pages</a>
             <a href="#about" class="button button--ghost">Learn More</a>
@@ -32,18 +35,11 @@
         </div>
         <div class="hero__media">
           <div class="hero__scene">
-            <img src="Landingpage/computer.jpg" alt="Preview of landing page collection" class="hero__image" />
+            <img src="images/image.png" alt="Web development and design" class="hero__image" />
             <div class="hero__card">
-              <span>Launch</span>
               <h2>Open any demo</h2>
               <p>Tap a page below to preview the collection instantly.</p>
             </div>
-            <div class="hero__badge hero__badge--top">4 pages</div>
-            <div class="hero__badge hero__badge--left">Fast links</div>
-            <div class="hero__badge hero__badge--right">Modern UI</div>
-            <div class="hero__spark hero__spark--one"></div>
-            <div class="hero__spark hero__spark--two"></div>
-            <div class="hero__spark hero__spark--three"></div>
           </div>
         </div>
       </section>
@@ -51,7 +47,8 @@
       <section id="pages" class="section section--pages">
         <div class="section__header">
           <span class="eyebrow">Open any demo</span>
-          <h2>Explore the four landing pages</h2>
+          <h2>Explore the landing pages</h2>
+          <p>This section features the static landing pages demos included in this collection. Each card links directly to a polished demo of the respective project.</p>
         </div>
         <div class="page-grid">
           <article class="page-card">
@@ -89,14 +86,129 @@
         </div>
       </section>
 
+      <section id="clones" class="section section--clones">
+        <div class="section__header">
+          <span class="eyebrow">Cloned / Hosted Demos</span>
+          <h2>Clone Section</h2>
+          <p>Explore the static or dynamic clones of existing websites.</p>
+        </div>
+        <div class="about-panel">
+          <div class="admin-form admin-control">
+            <input id="clone-name" placeholder="Name (optional)" />
+            <input id="clone-url" placeholder="https://example.com or /path/to/site" />
+            <button id="add-clone" class="button button--primary">Add Clone</button>
+          </div>
+        </div>
+        <div class="page-grid" id="clones-list" aria-live="polite"></div>
+      </section>
+
+      <section id="external" class="section section--external">
+        <div class="section__header">
+          <span class="eyebrow">Other Links</span>
+          <h2>Other Projects</h2>
+          <p>This area is for some other creative frontend projects which i want to showcase.</p>
+        </div>
+        <div class="about-panel">
+          <div class="admin-form admin-control">
+            <input id="ext-name" placeholder="Name (optional)" />
+            <input id="ext-url" placeholder="https://..." />
+            <button id="add-external" class="button button--ghost">Add Link</button>
+          </div>
+        </div>
+        <div class="page-grid" id="external-list" aria-live="polite"></div>
+      </section>
+
       <section id="about" class="section section--about">
         <div class="about-panel">
           <h2>Use this hub for easy navigation</h2>
-          <p>This page is designed as a shared entry point for your collection of landing page demos. It keeps the experience consistent while making each project accessible from one place.</p>
-          <p>Want, you can also use this page to showcase updates, add a gallery, or swap thumbnails for each project later.</p>
+          <p>This page is designed as a shared entry point for collection of frontend page demos. It keeps the experience consistent while making each project accessible from one place.</p>
         </div>
       </section>
     </main>
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var clonesKey = 'hub_clones';
+      var externalKey = 'hub_external';
+      function load(key) { try { return JSON.parse(localStorage.getItem(key)) || []; } catch (e) { return []; } }
+      function save(key, arr) { localStorage.setItem(key, JSON.stringify(arr)); }
+      function escapeHtml(s) { return String(s).replace(/[&<>\"]/g, function (c) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]); }); }
+      function renderList(key, containerId) {
+        var list = load(key);
+        var container = document.getElementById(containerId);
+        container.innerHTML = '';
+        list.forEach(function (item, idx) {
+          var card = document.createElement('article');
+          card.className = 'page-card';
+          var name = item.name || item.url;
+          card.innerHTML = '<div class="page-card__icon">' + (idx + 1) + '</div>' +
+            '<div><h3>' + escapeHtml(name) + '</h3><p>' + escapeHtml(item.url) + '</p></div>' +
+            '<a href="' + item.url + '" target="_blank" rel="noopener" class="button button--link">Open</a>' +
+            '<button data-idx="' + idx + '" data-section="' + key + '" class="button button--ghost edit-btn admin-control">Edit</button>' +
+            '<button data-idx="' + idx + '" data-section="' + key + '" class="button remove-btn admin-control">Remove</button>';
+          container.appendChild(card);
+        });
+      }
+      document.getElementById('add-clone').addEventListener('click', function () {
+        var name = document.getElementById('clone-name').value.trim();
+        var url = document.getElementById('clone-url').value.trim();
+        if (!url) { alert('Please enter a URL'); return; }
+        var arr = load(clonesKey);
+        arr.push({ name: name, url: url });
+        save(clonesKey, arr);
+        renderList(clonesKey, 'clones-list');
+        document.getElementById('clone-name').value = '';
+        document.getElementById('clone-url').value = '';
+      });
+      document.getElementById('add-external').addEventListener('click', function () {
+        var name = document.getElementById('ext-name').value.trim();
+        var url = document.getElementById('ext-url').value.trim();
+        if (!url) { alert('Please enter a URL'); return; }
+        var arr = load(externalKey);
+        arr.push({ name: name, url: url });
+        save(externalKey, arr);
+        renderList(externalKey, 'external-list');
+        document.getElementById('ext-name').value = '';
+        document.getElementById('ext-url').value = '';
+      });
+      document.addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('remove-btn')) {
+          var idx = Number(e.target.getAttribute('data-idx'));
+          var sectionKey = e.target.getAttribute('data-section');
+          var arr = load(sectionKey);
+          arr.splice(idx, 1);
+          save(sectionKey, arr);
+          renderList(sectionKey, sectionKey === clonesKey ? 'clones-list' : 'external-list');
+        }
+        if (e.target && e.target.classList.contains('edit-btn')) {
+          var idx = Number(e.target.getAttribute('data-idx'));
+          var sectionKey = e.target.getAttribute('data-section');
+          var arr = load(sectionKey);
+          var item = arr[idx];
+          var newName = prompt('Edit name', item.name || '');
+          if (newName === null) return; // cancelled
+          var newUrl = prompt('Edit URL', item.url || '');
+          if (newUrl === null) return;
+          item.name = newName.trim();
+          item.url = newUrl.trim();
+          save(sectionKey, arr);
+          renderList(sectionKey, sectionKey === clonesKey ? 'clones-list' : 'external-list');
+        }
+      });
+      // initialize defaults if empty
+      if (!load(clonesKey).length) {
+        save(clonesKey, [
+          { name: 'Food Card', url: 'Food_card/index.html' },
+          { name: 'Computer World', url: 'ComputerWorld/index.html' },
+          { name: 'News Frontpage', url: 'News_frontpage/index.html' },
+          { name: 'Sarkari Result', url: 'Sarkari_Result/index.html' }
+        ]);
+      }
+      if (!load(externalKey).length) { save(externalKey, []); }
+      renderList(clonesKey, 'clones-list');
+      renderList(externalKey, 'external-list');
+    });
+  </script>
+  <script src="hub.js"></script>
 </body>
 </html>
